@@ -18,6 +18,10 @@ discordieClient.Dispatcher.on(Discordie.Events.MESSAGE_CREATE, e => {
         return;
     }
     
+    if (discordieClient.User.getVoiceChannel(e.message.guild) === null) {
+        return;
+    }
+
     bouyomiGateway.pipeMessage(e.message.content).then((message) => {
         console.log(`read message: "${message}"`);
     });
