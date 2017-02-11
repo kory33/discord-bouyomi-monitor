@@ -22,7 +22,6 @@
         "strict": ["error", "global"],
         "eqeqeq"                : ["error", "always"],
         "space-before-blocks"   : ["error", "always"],
-        "linebreak-style"       : ["error", "unix"],
         "quotes"                : ["error", "double"],
         "semi"                  : ["error", "always"]
     }
