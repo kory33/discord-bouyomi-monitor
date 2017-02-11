@@ -1,0 +1,13 @@
+{
+    "connection" : {
+        "host" : "localhost",
+        "port" : 50001
+    },
+    "style" : {
+        "command": 1,
+        "volume" : -1,
+        "speed"  : -1,
+        "tone"   : -1,
+        "voice"  : 0
+    }
+}
