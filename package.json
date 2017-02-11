@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/Kory33/discord-bouyomi-monitor/issues"
   },
-  "homepage": "https://github.com/Kory33/discord-bouyomi-monitor#readme"
+  "homepage": "https://github.com/Kory33/discord-bouyomi-monitor#readme",
+  "dependencies": {
+    "discordie": "^0.11.0",
+    "net": "^1.0.2"
+  }
 }
