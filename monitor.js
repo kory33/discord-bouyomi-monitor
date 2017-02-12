@@ -9,6 +9,9 @@ const bouyomiOption = require("./bouyomi.json");
 const discordieClient = new Discordie();
 const bouyomiGateway = new BouyomiGateway(bouyomiOption);
 
+const toggleBouyomiCommand = "b>toggle";
+let useBouyomi = true;
+
 discordieClient.Dispatcher.on(Discordie.Events.GATEWAY_READY, ( ) => {
     console.log("Discordから棒読みちゃんに接続しました。");
 });
@@ -32,6 +35,15 @@ discordieClient.Dispatcher.on(Discordie.Events.MESSAGE_CREATE, e => {
     }
     
     if (discordieClient.User.getVoiceChannel(e.message.guild) === null) {
+        return;
+    }
+
+    if (e.message.content === toggleBouyomiCommand) {
+        useBouyomi = !useBouyomi;
+        return e.message.channel.sendMessage(`*棒読みちゃんを${useBouyomi ? "有効化" : "無効化"}しました。*`);
+    }
+
+    if (!useBouyomi) {
         return;
     }
 
