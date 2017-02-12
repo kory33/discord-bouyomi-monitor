@@ -38,6 +38,9 @@ module.exports = class BouyomiGateway {
 
             socket.end();
             console.log(`read message: ${message}`);
+        }).on("error", (e) => {
+            console.log("Caught error while sending data to BouyomiChan:");
+            console.log(e);
         });
         return socket;
     }
