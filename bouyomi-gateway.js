@@ -8,17 +8,6 @@ module.exports = class BouyomiGateway {
     }
 
     pipeMessage(message) {
-        return new Promise(((resolve, reject) => {
-            try {
-                this.sendMessageSync(message);
-                resolve(message);
-            } catch (error) {
-                reject(error);
-            }
-        }).bind(this));
-    }
-
-    sendMessageSync(message) {
         const socket = new net.Socket();
         socket.connect(this.option.connection.port, this.option.connection.host, () => {
             const writeOrder = ["command", "speed", "tone", "volume", "voice"];
@@ -48,6 +37,8 @@ module.exports = class BouyomiGateway {
             socket.write(bufferedMessage);
 
             socket.end();
+            console.log(`read message: ${message}`);
         });
+        return socket;
     }
 };
