@@ -22,7 +22,7 @@ function replaceIdMention(event) {
             return match;
         }
 
-        return targetMember.name;
+        return targetMember.name + "へのメンション:";
     });
 }
 
