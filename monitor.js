@@ -22,10 +22,11 @@ discordieClient.Dispatcher.on(Discordie.Events.MESSAGE_CREATE, e => {
         return;
     }
 
-    bouyomiGateway.pipeMessage(e.message.content).then((message) => {
-        console.log(`read message: "${message}"`);
-    });
+    bouyomiGateway.pipeMessage(e.message.content);
 });
 
 
 discordieClient.connect(token);
+
+process.stdin.resume();
+process.stdin.on("data", (data) => bouyomiGateway.pipeMessage(data));
