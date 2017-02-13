@@ -42,10 +42,19 @@ discordieClient.Dispatcher.on(Discordie.Events.MESSAGE_CREATE, e => {
 
     if (e.message.content === toggleBouyomiCommand) {
         useBouyomi = !useBouyomi;
-        return e.message.channel.sendMessage(`*棒読みちゃんを${useBouyomi ? "有効化" : "無効化"}しました。*`);
+        return e.message.delete()
+        .then(() => e.message.channel.sendMessage(`\`\`\`棒読みちゃんを${useBouyomi ? "有効化" : "無効化"}しました。\`\`\``))
+        .then((sentMessage) => {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    sentMessage.delete();
+                    resolve();
+                }, 3000);
+            });
+        });
     }
 
-    if (!useBouyomi || e.message.content.startsWith(noReadCommand)) {
+    if (!useBouyomi || e.message.content.startsWith(noReadCommand) || e.message.content.startsWith("```")) {
         return;
     }
 
