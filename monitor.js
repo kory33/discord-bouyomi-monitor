@@ -41,12 +41,9 @@ discordieClient.Dispatcher.on(Discordie.Events.MESSAGE_CREATE, e => {
         return e.message.delete()
         .then(() => e.message.channel.sendMessage(`\`\`\`棒読みちゃんを${useBouyomi ? "有効化" : "無効化"}しました。\`\`\``))
         .then((sentMessage) => {
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    sentMessage.delete();
-                    resolve();
-                }, 3000);
-            });
+            setTimeout(() => {
+                sentMessage.delete();
+            }, 2000);
         });
     }
 
