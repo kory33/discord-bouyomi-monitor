@@ -36,10 +36,6 @@ discordieClient.Dispatcher.on(Discordie.Events.MESSAGE_CREATE, e => {
         return;
     }
     
-    if (discordieClient.User.getVoiceChannel(e.message.guild) === null) {
-        return;
-    }
-
     if (e.message.content === toggleBouyomiCommand) {
         useBouyomi = !useBouyomi;
         return e.message.delete()
@@ -52,6 +48,10 @@ discordieClient.Dispatcher.on(Discordie.Events.MESSAGE_CREATE, e => {
                 }, 3000);
             });
         });
+    }
+
+    if (discordieClient.User.getVoiceChannel(e.message.guild) === null) {
+        return;
     }
 
     if (!useBouyomi || e.message.content.startsWith(noReadCommand) || e.message.content.startsWith("```")) {
