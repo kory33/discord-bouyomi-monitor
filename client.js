@@ -72,6 +72,18 @@ module.exports = (bouyomiGateway) => {
         .replace(...roleMentionReplacor(event));
     }
 
+    function notifyBouyomiToggle(toggleMessageChannel) {
+        return toggleMessageChannel.sendMessage(`\`\`\`棒読みちゃんを${useBouyomi ? "有効化" : "無効化"}しました。\`\`\``)
+        .then((sentMessage) => {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    sentMessage.delete();
+                    resolve();
+                }, 2000);
+            });
+        });
+    }
+
     discordieClient.Dispatcher.on(Discordie.Events.MESSAGE_CREATE, e => {
         if (discordieClient.User.id !== e.message.author.id) {
             return;
@@ -79,13 +91,8 @@ module.exports = (bouyomiGateway) => {
     
         if (e.message.content === commandMessages.toggle) {
             useBouyomi = !useBouyomi;
-            return e.message.delete()
-            .then(() => e.message.channel.sendMessage(`\`\`\`棒読みちゃんを${useBouyomi ? "有効化" : "無効化"}しました。\`\`\``))
-            .then((sentMessage) => {
-                setTimeout(() => {
-                    sentMessage.delete();
-                }, 2000);
-            });
+            e.message.delete();
+            return notifyBouyomiToggle(e.message.channel);
         }
 
         if (discordieClient.User.getVoiceChannel(e.message.guild) === null) {
