@@ -15,7 +15,7 @@ const noReadCommand = "b>noRead";
 let useBouyomi = true;
 
 discordieClient.Dispatcher.on(Discordie.Events.GATEWAY_READY, ( ) => {
-    console.log("Discordから棒読みちゃんに接続しました。");
+    console.log("Discordに接続しました。");
 });
 
 function replaceIdMention(event) {
