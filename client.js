@@ -15,10 +15,6 @@ module.exports = (bouyomiGateway) => {
         console.log("Discordに接続しました。");
     });
 
-    function getReadMessage(event) {
-        return event.message.resolveContent();
-    }
-
     function notifyBouyomiToggle(toggleMessageChannel) {
         return toggleMessageChannel.sendMessage(`\`\`\`棒読みちゃんを${useBouyomi ? "有効化" : "無効化"}しました。\`\`\``)
         .then((sentMessage) => {
@@ -50,7 +46,7 @@ module.exports = (bouyomiGateway) => {
             return;
         }
 
-        bouyomiGateway.pipeMessage(getReadMessage(e));
+        bouyomiGateway.pipeMessage(e.message.resolveContent());
     });
 
     return discordieClient;
