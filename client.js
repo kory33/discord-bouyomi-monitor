@@ -19,12 +19,7 @@ module.exports = (bouyomiGateway) => {
         return [/<@(\d+)>/g, (match, id) => {
             const memberArray = event.message.guild.members;
             const targetMember = memberArray.find((member) => member.id === id);
-
-            if (targetMember === undefined) {
-                return match;
-            }
-
-            return "@" + targetMember.name;
+            return targetMember === undefined ? match : `@${targetMember.name}`;
         }];
     }  
     
@@ -33,8 +28,7 @@ module.exports = (bouyomiGateway) => {
             const selfName = event.message.guild.members
                 .find((member) => member.id === discordieClient.User.id)
                 .name;
-
-            return "@" + selfName;
+            return `@${selfName}`;
         }];
     }
 
@@ -42,12 +36,7 @@ module.exports = (bouyomiGateway) => {
         return [/<#(\d+)>/g, (match, channelId) => {
             const textChannels = event.message.guild.textChannels;
             const targetChannel = textChannels.find((channel) => channel.id === channelId);
-
-            if (targetChannel === undefined) {
-                return match;
-            }
-
-            return "#" + targetChannel.name;
+            return targetChannel === undefined ? match : `#${targetChannel.name}`;
         }];
     }
 
@@ -55,12 +44,7 @@ module.exports = (bouyomiGateway) => {
         return [/<@&(\d+)>/, (match, roleId) => {
             const roles = event.message.guild.roles;
             const targetRole = roles.find((role) => role.id === roleId);
-
-            if (targetRole === undefined) {
-                return match;
-            }
-            
-            return "@" + targetRole.name;
+            return targetRole === undefined ? match : `@${targetRole.name}`;
         }];
     }
 
