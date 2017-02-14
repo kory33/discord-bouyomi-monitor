@@ -9,8 +9,10 @@ const bouyomiOption = require("./bouyomi.json");
 const discordieClient = new Discordie();
 const bouyomiGateway = new BouyomiGateway(bouyomiOption);
 
-const toggleBouyomiCommand = "b>toggle";
-const noReadCommand = "b>noRead";
+const commandMessages = {
+    toggle: "b>toggle",
+    noRead: "b>noread"
+};
 
 let useBouyomi = true;
 
@@ -36,7 +38,7 @@ discordieClient.Dispatcher.on(Discordie.Events.MESSAGE_CREATE, e => {
         return;
     }
     
-    if (e.message.content === toggleBouyomiCommand) {
+    if (e.message.content === commandMessages.toggle) {
         useBouyomi = !useBouyomi;
         return e.message.delete()
         .then(() => e.message.channel.sendMessage(`\`\`\`棒読みちゃんを${useBouyomi ? "有効化" : "無効化"}しました。\`\`\``))
@@ -51,7 +53,7 @@ discordieClient.Dispatcher.on(Discordie.Events.MESSAGE_CREATE, e => {
         return;
     }
 
-    if (!useBouyomi || e.message.content.startsWith(noReadCommand) || e.message.content.startsWith("```")) {
+    if (!useBouyomi || e.message.content.startsWith(commandMessages.noRead) || e.message.content.startsWith("```")) {
         return;
     }
 
