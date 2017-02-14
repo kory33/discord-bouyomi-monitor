@@ -15,8 +15,8 @@ module.exports = (bouyomiGateway) => {
         console.log("Discordに接続しました。");
     });
 
-    function replaceIdMention(messageContent, event) {
-        return messageContent.replace(/<@!?(\d+)>/g, (match, id) => {
+    function userMentionReplacor(event) {
+        return [/<@(\d+)>/g, (match, id) => {
             const memberArray = event.message.guild.members;
             const targetMember = memberArray.find((member) => member.id === id);
 
@@ -25,11 +25,51 @@ module.exports = (bouyomiGateway) => {
             }
 
             return "@" + targetMember.name;
-        });
+        }];
+    }  
+    
+    function selfMentionReplacor(event) {
+        return [new RegExp(`<@!${discordieClient.User.id}>`, "g"), () => {
+            const selfName = event.message.guild.members
+                .find((member) => member.id === discordieClient.User.id)
+                .name;
+
+            return "@" + selfName;
+        }];
+    }
+
+    function chnlMentionReplacor(event) {
+        return [/<#(\d+)>/g, (match, channelId) => {
+            const textChannels = event.message.guild.textChannels;
+            const targetChannel = textChannels.find((channel) => channel.id === channelId);
+
+            if (targetChannel === undefined) {
+                return match;
+            }
+
+            return "#" + targetChannel.name;
+        }];
+    }
+
+    function roleMentionReplacor(event) {
+        return [/<@&(\d+)>/, (match, roleId) => {
+            const roles = event.message.guild.roles;
+            const targetRole = roles.find((role) => role.id === roleId);
+
+            if (targetRole === undefined) {
+                return match;
+            }
+            
+            return "@" + targetRole.name;
+        }];
     }
 
     function getReadMessage(event) {
-        return replaceIdMention(event.message.content, event);
+        return event.message.content
+        .replace(...userMentionReplacor(event))
+        .replace(...selfMentionReplacor(event))
+        .replace(...chnlMentionReplacor(event))
+        .replace(...roleMentionReplacor(event));
     }
 
     discordieClient.Dispatcher.on(Discordie.Events.MESSAGE_CREATE, e => {
