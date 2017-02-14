@@ -3,8 +3,10 @@
 const Discordie = require("Discordie");
 
 const commandMessages = {
-    toggle: "b>toggle",
-    noRead: "b>noread"
+    toggle  : "b>toggle",
+    on      : "b>on",
+    off     : "b>off",
+    noRead  : "b>noread"
 };
 
 module.exports = (bouyomiGateway) => {
@@ -27,13 +29,28 @@ module.exports = (bouyomiGateway) => {
         });
     }
 
+    function renewState(message) {
+        if (message === commandMessages.toggle) {
+            useBouyomi = !useBouyomi;
+            return true;
+        }
+        if (message === commandMessages.on) {
+            useBouyomi = true;
+            return true;
+        }
+        if (message === commandMessages.off) {
+            useBouyomi = false;
+            return true;
+        }
+        return false;
+    }
+
     discordieClient.Dispatcher.on(Discordie.Events.MESSAGE_CREATE, e => {
         if (discordieClient.User.id !== e.message.author.id) {
             return;
         }
     
-        if (e.message.content === commandMessages.toggle) {
-            useBouyomi = !useBouyomi;
+        if (renewState(e.message.content)) {
             e.message.delete();
             return notifyBouyomiToggle(e.message.channel);
         }
